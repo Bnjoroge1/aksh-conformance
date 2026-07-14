@@ -1,0 +1,24 @@
+long	Set up job	﻿2026-07-14T21:57:51.0365240Z Current runner version: '2.335.1'
+long	Set up job	2026-07-14T21:57:51.0369330Z Runner name: 'conformance-test'
+long	Set up job	2026-07-14T21:57:51.0369720Z Runner group name: 'Default'
+long	Set up job	2026-07-14T21:57:51.0370290Z Machine name: 'Nuraydias-Mac-Studio'
+long	Set up job	2026-07-14T21:57:51.0372010Z ##[group]GITHUB_TOKEN Permissions
+long	Set up job	2026-07-14T21:57:51.0372990Z Contents: read
+long	Set up job	2026-07-14T21:57:51.0373260Z Metadata: read
+long	Set up job	2026-07-14T21:57:51.0373520Z Packages: read
+long	Set up job	2026-07-14T21:57:51.0373860Z ##[endgroup]
+long	Set up job	2026-07-14T21:57:51.0374860Z Secret source: Actions
+long	Set up job	2026-07-14T21:57:51.0375280Z Prepare workflow directory
+long	Set up job	2026-07-14T21:57:51.0618250Z Prepare all required actions
+long	Set up job	2026-07-14T21:57:51.0713870Z Complete job name: long
+long	sleep-a-bit	﻿2026-07-14T21:57:51.1176490Z ##[group]Run echo "SCENARIO=03-fifo-pending"
+long	sleep-a-bit	2026-07-14T21:57:51.1176920Z ^[[36;1mecho "SCENARIO=03-fifo-pending"^[[0m
+long	sleep-a-bit	2026-07-14T21:57:51.1177280Z ^[[36;1mecho "START=$(date -u +%Y-%m-%dT%H:%M:%SZ)"^[[0m
+long	sleep-a-bit	2026-07-14T21:57:51.1177600Z ^[[36;1msleep 6^[[0m
+long	sleep-a-bit	2026-07-14T21:57:51.1177850Z ^[[36;1mecho "DONE=03"^[[0m
+long	sleep-a-bit	2026-07-14T21:57:51.1224220Z shell: /bin/bash -e {0}
+long	sleep-a-bit	2026-07-14T21:57:51.1224610Z ##[endgroup]
+long	sleep-a-bit	2026-07-14T21:57:51.1583860Z SCENARIO=03-fifo-pending
+long	sleep-a-bit	2026-07-14T21:57:51.1623830Z START=2026-07-14T21:57:51Z
+long	sleep-a-bit	2026-07-14T21:57:57.1746660Z DONE=03
+long	Complete job	﻿2026-07-14T21:57:57.1859550Z Cleaning up orphan processes

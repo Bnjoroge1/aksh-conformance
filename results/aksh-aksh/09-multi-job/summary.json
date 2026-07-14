@@ -1,0 +1,34 @@
+{
+  "run_id": "34fcddd0-eccb-4c6d-80a4-3721707e3ff0",
+  "submission": {
+    "workflow_yaml": "name: concurrency-09-multi-job-hold\non: workflow_dispatch\nconcurrency: multi-job-workflow-group\njobs:\n  one:\n    runs-on: self-hosted\n    steps:\n      - name: one\n        run: |\n          echo \"SCENARIO=09-multi-job job=one\"\n          sleep 3\n          echo \"DONE=one\"\n  two:\n    runs-on: self-hosted\n    steps:\n      - name: two\n        run: |\n          echo \"SCENARIO=09-multi-job job=two\"\n          sleep 3\n          echo \"DONE=two\"\n",
+    "event": "workflow_dispatch",
+    "payload": null,
+    "repository": "owner/repo",
+    "git_ref": "refs/heads/main",
+    "vars": {},
+    "secrets": {},
+    "reusable_workflows": {},
+    "enable_debugger": false,
+    "debugger_welcome_message": null
+  },
+  "jobs": {
+    "one": "success",
+    "two": "success"
+  },
+  "status": "success",
+  "job_outputs": {
+    "one": {},
+    "two": {}
+  },
+  "job_base_ids": {
+    "one": "one",
+    "two": "two"
+  },
+  "job_fail_fast": {
+    "one": true,
+    "two": true
+  },
+  "job_check_run_ids": {},
+  "reusable_calls": {}
+}

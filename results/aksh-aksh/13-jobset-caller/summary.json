@@ -1,0 +1,55 @@
+{
+  "run_id": "6f03c946-5547-488e-9fb4-416dcb3859c2",
+  "submission": {
+    "workflow_yaml": "name: concurrency-13-jobset-caller-only\non: workflow_dispatch\njobs:\n  caller-job:\n    concurrency:\n      group: caller-only-group\n      cancel-in-progress: false\n    uses: ./.github/workflows/reusable-callee.yml\n    with:\n      val: \"caller-only\"\n",
+    "event": "workflow_dispatch",
+    "payload": null,
+    "repository": "owner/repo",
+    "git_ref": "refs/heads/main",
+    "vars": {},
+    "secrets": {},
+    "reusable_workflows": {
+      ".github/workflows/reusable-callee.yml": "name: reusable-callee\non:\n  workflow_call:\n    inputs:\n      val:\n        required: true\n        type: string\n      concurrency_group:\n        required: false\n        type: string\n        default: \"\"\nconcurrency:\n  group: ${{ inputs.concurrency_group }}\njobs:\n  inner:\n    runs-on: self-hosted\n    steps:\n      - name: run-inner\n        run: |\n          echo \"SCENARIO=reusable-callee input=${{ inputs.val }}\"\n          sleep 4\n          echo \"DONE=reusable\"\n"
+    },
+    "enable_debugger": false,
+    "debugger_welcome_message": null
+  },
+  "jobs": {
+    "caller-job/inner": "success"
+  },
+  "status": "success",
+  "job_outputs": {
+    "caller-job": {},
+    "caller-job/inner": {}
+  },
+  "job_base_ids": {
+    "caller-job/inner": "caller-job/inner"
+  },
+  "job_fail_fast": {
+    "caller-job/inner": true
+  },
+  "job_check_run_ids": {},
+  "reusable_calls": {
+    "caller-job": {
+      "caller_job_id": "caller-job",
+      "output_definitions": {},
+      "inner_job_ids": [
+        "caller-job/inner"
+      ],
+      "inputs": {
+        "concurrency_group": "",
+        "val": "caller-only"
+      },
+      "caller_concurrency": {
+        "group": "caller-only-group",
+        "cancel_in_progress": "false",
+        "queue": "single"
+      },
+      "embedded_concurrency": {
+        "group": "${{ inputs.concurrency_group }}",
+        "cancel_in_progress": null,
+        "queue": "single"
+      }
+    }
+  }
+}

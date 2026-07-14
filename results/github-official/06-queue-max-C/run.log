@@ -1,0 +1,22 @@
+build	Set up job	﻿2026-07-14T21:59:48.6658380Z Current runner version: '2.335.1'
+build	Set up job	2026-07-14T21:59:48.6662250Z Runner name: 'conformance-test'
+build	Set up job	2026-07-14T21:59:48.6662640Z Runner group name: 'Default'
+build	Set up job	2026-07-14T21:59:48.6663140Z Machine name: 'Nuraydias-Mac-Studio'
+build	Set up job	2026-07-14T21:59:48.6664800Z ##[group]GITHUB_TOKEN Permissions
+build	Set up job	2026-07-14T21:59:48.6665720Z Contents: read
+build	Set up job	2026-07-14T21:59:48.6666050Z Metadata: read
+build	Set up job	2026-07-14T21:59:48.6666310Z Packages: read
+build	Set up job	2026-07-14T21:59:48.6666570Z ##[endgroup]
+build	Set up job	2026-07-14T21:59:48.6667440Z Secret source: Actions
+build	Set up job	2026-07-14T21:59:48.6667790Z Prepare workflow directory
+build	Set up job	2026-07-14T21:59:48.6884350Z Prepare all required actions
+build	Set up job	2026-07-14T21:59:48.6926960Z Complete job name: build
+build	marker	﻿2026-07-14T21:59:48.7271990Z ##[group]Run echo "SCENARIO=06-queue-max"
+build	marker	2026-07-14T21:59:48.7272400Z ^[[36;1mecho "SCENARIO=06-queue-max"^[[0m
+build	marker	2026-07-14T21:59:48.7272700Z ^[[36;1msleep 5^[[0m
+build	marker	2026-07-14T21:59:48.7272950Z ^[[36;1mecho "DONE=06"^[[0m
+build	marker	2026-07-14T21:59:48.7317630Z shell: /bin/bash -e {0}
+build	marker	2026-07-14T21:59:48.7317990Z ##[endgroup]
+build	marker	2026-07-14T21:59:48.7743700Z SCENARIO=06-queue-max
+build	marker	2026-07-14T21:59:53.7886140Z DONE=06
+build	Complete job	﻿2026-07-14T21:59:53.8294670Z Cleaning up orphan processes

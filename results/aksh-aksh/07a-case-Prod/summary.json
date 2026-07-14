@@ -1,0 +1,30 @@
+{
+  "run_id": "7ca27045-3c3f-4c33-b8c6-42930c5f0956",
+  "submission": {
+    "workflow_yaml": "name: concurrency-07a-case-Prod\non: workflow_dispatch\nconcurrency:\n  group: CaseGroup\n  cancel-in-progress: false\njobs:\n  build:\n    runs-on: self-hosted\n    steps:\n      - name: marker\n        run: |\n          echo \"SCENARIO=07-case-Prod\"\n          sleep 5\n          echo \"DONE=07a\"\n",
+    "event": "workflow_dispatch",
+    "payload": null,
+    "repository": "owner/repo",
+    "git_ref": "refs/heads/main",
+    "vars": {},
+    "secrets": {},
+    "reusable_workflows": {},
+    "enable_debugger": false,
+    "debugger_welcome_message": null
+  },
+  "jobs": {
+    "build": "success"
+  },
+  "status": "success",
+  "job_outputs": {
+    "build": {}
+  },
+  "job_base_ids": {
+    "build": "build"
+  },
+  "job_fail_fast": {
+    "build": true
+  },
+  "job_check_run_ids": {},
+  "reusable_calls": {}
+}

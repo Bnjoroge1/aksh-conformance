@@ -1,0 +1,66 @@
+matrix-job (1)	Set up job	﻿2026-07-14T22:01:34.1158880Z Current runner version: '2.335.1'
+matrix-job (1)	Set up job	2026-07-14T22:01:34.1162690Z Runner name: 'conformance-test'
+matrix-job (1)	Set up job	2026-07-14T22:01:34.1163060Z Runner group name: 'Default'
+matrix-job (1)	Set up job	2026-07-14T22:01:34.1163510Z Machine name: 'Nuraydias-Mac-Studio'
+matrix-job (1)	Set up job	2026-07-14T22:01:34.1165190Z ##[group]GITHUB_TOKEN Permissions
+matrix-job (1)	Set up job	2026-07-14T22:01:34.1165940Z Contents: read
+matrix-job (1)	Set up job	2026-07-14T22:01:34.1166280Z Metadata: read
+matrix-job (1)	Set up job	2026-07-14T22:01:34.1166550Z Packages: read
+matrix-job (1)	Set up job	2026-07-14T22:01:34.1166830Z ##[endgroup]
+matrix-job (1)	Set up job	2026-07-14T22:01:34.1167700Z Secret source: Actions
+matrix-job (1)	Set up job	2026-07-14T22:01:34.1168050Z Prepare workflow directory
+matrix-job (1)	Set up job	2026-07-14T22:01:34.1387480Z Prepare all required actions
+matrix-job (1)	Set up job	2026-07-14T22:01:34.1429360Z Complete job name: matrix-job (1)
+matrix-job (1)	run-cell	﻿2026-07-14T22:01:34.1812130Z ##[group]Run echo "SCENARIO=12-matrix val=1"
+matrix-job (1)	run-cell	2026-07-14T22:01:34.1812580Z ^[[36;1mecho "SCENARIO=12-matrix val=1"^[[0m
+matrix-job (1)	run-cell	2026-07-14T22:01:34.1812880Z ^[[36;1msleep 3^[[0m
+matrix-job (1)	run-cell	2026-07-14T22:01:34.1813130Z ^[[36;1mecho "DONE=1"^[[0m
+matrix-job (1)	run-cell	2026-07-14T22:01:34.1857480Z shell: /bin/bash -e {0}
+matrix-job (1)	run-cell	2026-07-14T22:01:34.1857850Z ##[endgroup]
+matrix-job (1)	run-cell	2026-07-14T22:01:34.2169820Z SCENARIO=12-matrix val=1
+matrix-job (1)	run-cell	2026-07-14T22:01:37.2219510Z DONE=1
+matrix-job (1)	Complete job	﻿2026-07-14T22:01:37.2290350Z Cleaning up orphan processes
+matrix-job (2)	Set up job	﻿2026-07-14T22:01:40.4087150Z Current runner version: '2.335.1'
+matrix-job (2)	Set up job	2026-07-14T22:01:40.4090950Z Runner name: 'conformance-test'
+matrix-job (2)	Set up job	2026-07-14T22:01:40.4091350Z Runner group name: 'Default'
+matrix-job (2)	Set up job	2026-07-14T22:01:40.4091780Z Machine name: 'Nuraydias-Mac-Studio'
+matrix-job (2)	Set up job	2026-07-14T22:01:40.4093460Z ##[group]GITHUB_TOKEN Permissions
+matrix-job (2)	Set up job	2026-07-14T22:01:40.4094400Z Contents: read
+matrix-job (2)	Set up job	2026-07-14T22:01:40.4094690Z Metadata: read
+matrix-job (2)	Set up job	2026-07-14T22:01:40.4094960Z Packages: read
+matrix-job (2)	Set up job	2026-07-14T22:01:40.4095240Z ##[endgroup]
+matrix-job (2)	Set up job	2026-07-14T22:01:40.4096230Z Secret source: Actions
+matrix-job (2)	Set up job	2026-07-14T22:01:40.4096590Z Prepare workflow directory
+matrix-job (2)	Set up job	2026-07-14T22:01:40.4322600Z Prepare all required actions
+matrix-job (2)	Set up job	2026-07-14T22:01:40.4364400Z Complete job name: matrix-job (2)
+matrix-job (2)	run-cell	﻿2026-07-14T22:01:40.4746760Z ##[group]Run echo "SCENARIO=12-matrix val=2"
+matrix-job (2)	run-cell	2026-07-14T22:01:40.4747190Z ^[[36;1mecho "SCENARIO=12-matrix val=2"^[[0m
+matrix-job (2)	run-cell	2026-07-14T22:01:40.4747520Z ^[[36;1msleep 3^[[0m
+matrix-job (2)	run-cell	2026-07-14T22:01:40.4747830Z ^[[36;1mecho "DONE=2"^[[0m
+matrix-job (2)	run-cell	2026-07-14T22:01:40.4792430Z shell: /bin/bash -e {0}
+matrix-job (2)	run-cell	2026-07-14T22:01:40.4792830Z ##[endgroup]
+matrix-job (2)	run-cell	2026-07-14T22:01:40.5150450Z SCENARIO=12-matrix val=2
+matrix-job (2)	run-cell	2026-07-14T22:01:43.5263210Z DONE=2
+matrix-job (2)	Complete job	﻿2026-07-14T22:01:43.5350850Z Cleaning up orphan processes
+matrix-job (3)	Set up job	﻿2026-07-14T22:01:46.5975190Z Current runner version: '2.335.1'
+matrix-job (3)	Set up job	2026-07-14T22:01:46.5979110Z Runner name: 'conformance-test'
+matrix-job (3)	Set up job	2026-07-14T22:01:46.5979490Z Runner group name: 'Default'
+matrix-job (3)	Set up job	2026-07-14T22:01:46.5979960Z Machine name: 'Nuraydias-Mac-Studio'
+matrix-job (3)	Set up job	2026-07-14T22:01:46.5981610Z ##[group]GITHUB_TOKEN Permissions
+matrix-job (3)	Set up job	2026-07-14T22:01:46.5982430Z Contents: read
+matrix-job (3)	Set up job	2026-07-14T22:01:46.5982720Z Metadata: read
+matrix-job (3)	Set up job	2026-07-14T22:01:46.5983010Z Packages: read
+matrix-job (3)	Set up job	2026-07-14T22:01:46.5983270Z ##[endgroup]
+matrix-job (3)	Set up job	2026-07-14T22:01:46.5984130Z Secret source: Actions
+matrix-job (3)	Set up job	2026-07-14T22:01:46.5984490Z Prepare workflow directory
+matrix-job (3)	Set up job	2026-07-14T22:01:46.6213970Z Prepare all required actions
+matrix-job (3)	Set up job	2026-07-14T22:01:46.6255330Z Complete job name: matrix-job (3)
+matrix-job (3)	run-cell	﻿2026-07-14T22:01:46.6612380Z ##[group]Run echo "SCENARIO=12-matrix val=3"
+matrix-job (3)	run-cell	2026-07-14T22:01:46.6612810Z ^[[36;1mecho "SCENARIO=12-matrix val=3"^[[0m
+matrix-job (3)	run-cell	2026-07-14T22:01:46.6613150Z ^[[36;1msleep 3^[[0m
+matrix-job (3)	run-cell	2026-07-14T22:01:46.6613410Z ^[[36;1mecho "DONE=3"^[[0m
+matrix-job (3)	run-cell	2026-07-14T22:01:46.6657230Z shell: /bin/bash -e {0}
+matrix-job (3)	run-cell	2026-07-14T22:01:46.6657600Z ##[endgroup]
+matrix-job (3)	run-cell	2026-07-14T22:01:46.6881210Z SCENARIO=12-matrix val=3
+matrix-job (3)	run-cell	2026-07-14T22:01:49.6997680Z DONE=3
+matrix-job (3)	Complete job	﻿2026-07-14T22:01:49.7130680Z Cleaning up orphan processes

@@ -1,0 +1,36 @@
+{
+  "run_id": "144625b3-fbcb-4837-9f49-10f66378ace5",
+  "submission": {
+    "workflow_yaml": "name: concurrency-12-matrix-same-group\non: workflow_dispatch\njobs:\n  matrix-job:\n    runs-on: self-hosted\n    strategy:\n      max-parallel: 1\n      matrix:\n        val: [1, 2, 3]\n    concurrency:\n      group: matrix-group-${{ matrix.val }}\n      cancel-in-progress: false\n    steps:\n      - name: run-cell\n        run: |\n          echo \"SCENARIO=12-matrix val=${{ matrix.val }}\"\n          sleep 3\n          echo \"DONE=${{ matrix.val }}\"\n",
+    "event": "workflow_dispatch",
+    "payload": null,
+    "repository": "owner/repo",
+    "git_ref": "refs/heads/main",
+    "vars": {},
+    "secrets": {},
+    "reusable_workflows": {},
+    "enable_debugger": false,
+    "debugger_welcome_message": null
+  },
+  "jobs": {
+    "matrix-job (1)": "success",
+    "matrix-job (2)": "success",
+    "matrix-job (3)": "success"
+  },
+  "status": "success",
+  "job_outputs": {
+    "matrix-job (1)": {},
+    "matrix-job (2)": {},
+    "matrix-job (3)": {}
+  },
+  "job_base_ids": {
+    "matrix-job (1)": "matrix-job",
+    "matrix-job (2)": "matrix-job",
+    "matrix-job (3)": "matrix-job"
+  },
+  "job_fail_fast": {
+    "matrix-job": true
+  },
+  "job_check_run_ids": {},
+  "reusable_calls": {}
+}

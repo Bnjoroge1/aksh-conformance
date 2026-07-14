@@ -1,0 +1,24 @@
+build	Set up job	﻿2026-07-14T21:56:20.6131190Z Current runner version: '2.335.1'
+build	Set up job	2026-07-14T21:56:20.6135050Z Runner name: 'conformance-test'
+build	Set up job	2026-07-14T21:56:20.6135430Z Runner group name: 'Default'
+build	Set up job	2026-07-14T21:56:20.6135930Z Machine name: 'Nuraydias-Mac-Studio'
+build	Set up job	2026-07-14T21:56:20.6137610Z ##[group]GITHUB_TOKEN Permissions
+build	Set up job	2026-07-14T21:56:20.6138570Z Contents: read
+build	Set up job	2026-07-14T21:56:20.6138850Z Metadata: read
+build	Set up job	2026-07-14T21:56:20.6139120Z Packages: read
+build	Set up job	2026-07-14T21:56:20.6139400Z ##[endgroup]
+build	Set up job	2026-07-14T21:56:20.6140320Z Secret source: Actions
+build	Set up job	2026-07-14T21:56:20.6140650Z Prepare workflow directory
+build	Set up job	2026-07-14T21:56:20.6361170Z Prepare all required actions
+build	Set up job	2026-07-14T21:56:20.6403440Z Complete job name: build
+build	marker	﻿2026-07-14T21:56:20.6758410Z ##[group]Run echo "SCENARIO=01-bare-string"
+build	marker	2026-07-14T21:56:20.6758850Z ^[[36;1mecho "SCENARIO=01-bare-string"^[[0m
+build	marker	2026-07-14T21:56:20.6759210Z ^[[36;1mecho "RUN_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)"^[[0m
+build	marker	2026-07-14T21:56:20.6759530Z ^[[36;1msleep 5^[[0m
+build	marker	2026-07-14T21:56:20.6759790Z ^[[36;1mecho "DONE=01"^[[0m
+build	marker	2026-07-14T21:56:20.6805570Z shell: /bin/bash -e {0}
+build	marker	2026-07-14T21:56:20.6805960Z ##[endgroup]
+build	marker	2026-07-14T21:56:20.7000470Z SCENARIO=01-bare-string
+build	marker	2026-07-14T21:56:20.7011190Z RUN_AT=2026-07-14T21:56:20Z
+build	marker	2026-07-14T21:56:25.7081430Z DONE=01
+build	Complete job	﻿2026-07-14T21:56:25.7154780Z Cleaning up orphan processes

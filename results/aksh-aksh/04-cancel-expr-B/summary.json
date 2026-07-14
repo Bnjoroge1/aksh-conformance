@@ -1,0 +1,30 @@
+{
+  "run_id": "1aa722e2-8d61-4e97-9b86-26efe92a889a",
+  "submission": {
+    "workflow_yaml": "name: concurrency-04-cancel-expr-true\non: workflow_dispatch\nconcurrency:\n  group: cancel-expr-true\n  cancel-in-progress: ${{ true }}\njobs:\n  long:\n    runs-on: self-hosted\n    steps:\n      - name: sleep-long\n        run: |\n          echo \"SCENARIO=04-cancel-expr-true\"\n          sleep 30\n          echo \"SHOULD_NOT_REACH\"\n",
+    "event": "workflow_dispatch",
+    "payload": null,
+    "repository": "owner/repo",
+    "git_ref": "refs/heads/main",
+    "vars": {},
+    "secrets": {},
+    "reusable_workflows": {},
+    "enable_debugger": false,
+    "debugger_welcome_message": null
+  },
+  "jobs": {
+    "long": "success"
+  },
+  "status": "success",
+  "job_outputs": {
+    "long": {}
+  },
+  "job_base_ids": {
+    "long": "long"
+  },
+  "job_fail_fast": {
+    "long": true
+  },
+  "job_check_run_ids": {},
+  "reusable_calls": {}
+}

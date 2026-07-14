@@ -1,0 +1,24 @@
+long	Set up job	﻿2026-07-14T21:56:44.0830830Z Current runner version: '2.335.1'
+long	Set up job	2026-07-14T21:56:44.0834660Z Runner name: 'conformance-test'
+long	Set up job	2026-07-14T21:56:44.0835020Z Runner group name: 'Default'
+long	Set up job	2026-07-14T21:56:44.0835490Z Machine name: 'Nuraydias-Mac-Studio'
+long	Set up job	2026-07-14T21:56:44.0837180Z ##[group]GITHUB_TOKEN Permissions
+long	Set up job	2026-07-14T21:56:44.0838030Z Contents: read
+long	Set up job	2026-07-14T21:56:44.0838290Z Metadata: read
+long	Set up job	2026-07-14T21:56:44.0838570Z Packages: read
+long	Set up job	2026-07-14T21:56:44.0838830Z ##[endgroup]
+long	Set up job	2026-07-14T21:56:44.0839680Z Secret source: Actions
+long	Set up job	2026-07-14T21:56:44.0840000Z Prepare workflow directory
+long	Set up job	2026-07-14T21:56:44.1079430Z Prepare all required actions
+long	Set up job	2026-07-14T21:56:44.1121270Z Complete job name: long
+long	sleep-long	﻿2026-07-14T21:56:44.1492470Z ##[group]Run echo "SCENARIO=02-cancel-in-progress"
+long	sleep-long	2026-07-14T21:56:44.1492940Z ^[[36;1mecho "SCENARIO=02-cancel-in-progress"^[[0m
+long	sleep-long	2026-07-14T21:56:44.1493310Z ^[[36;1mecho "START=$(date -u +%Y-%m-%dT%H:%M:%SZ)"^[[0m
+long	sleep-long	2026-07-14T21:56:44.1493640Z ^[[36;1msleep 30^[[0m
+long	sleep-long	2026-07-14T21:56:44.1493900Z ^[[36;1mecho "SHOULD_NOT_REACH"^[[0m
+long	sleep-long	2026-07-14T21:56:44.1538280Z shell: /bin/bash -e {0}
+long	sleep-long	2026-07-14T21:56:44.1538640Z ##[endgroup]
+long	sleep-long	2026-07-14T21:56:44.1893720Z SCENARIO=02-cancel-in-progress
+long	sleep-long	2026-07-14T21:56:44.1894210Z START=2026-07-14T21:56:44Z
+long	sleep-long	2026-07-14T21:56:57.7296560Z ##[error]The operation was canceled.
+long	Complete job	﻿2026-07-14T21:56:57.7346430Z Cleaning up orphan processes

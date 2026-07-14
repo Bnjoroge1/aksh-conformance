@@ -1,0 +1,24 @@
+build	Set up job	﻿2026-07-14T22:01:22.5425440Z Current runner version: '2.335.1'
+build	Set up job	2026-07-14T22:01:22.5429480Z Runner name: 'conformance-test'
+build	Set up job	2026-07-14T22:01:22.5429830Z Runner group name: 'Default'
+build	Set up job	2026-07-14T22:01:22.5430300Z Machine name: 'Nuraydias-Mac-Studio'
+build	Set up job	2026-07-14T22:01:22.5431940Z ##[group]GITHUB_TOKEN Permissions
+build	Set up job	2026-07-14T22:01:22.5432810Z Contents: read
+build	Set up job	2026-07-14T22:01:22.5433080Z Metadata: read
+build	Set up job	2026-07-14T22:01:22.5433340Z Packages: read
+build	Set up job	2026-07-14T22:01:22.5433600Z ##[endgroup]
+build	Set up job	2026-07-14T22:01:22.5434480Z Secret source: Actions
+build	Set up job	2026-07-14T22:01:22.5434860Z Prepare workflow directory
+build	Set up job	2026-07-14T22:01:22.5650610Z Prepare all required actions
+build	Set up job	2026-07-14T22:01:22.5692810Z Complete job name: build
+build	marker	﻿2026-07-14T22:01:22.6054570Z ##[group]Run echo "SCENARIO=11-expr-group-ref"
+build	marker	2026-07-14T22:01:22.6055030Z ^[[36;1mecho "SCENARIO=11-expr-group-ref"^[[0m
+build	marker	2026-07-14T22:01:22.6055370Z ^[[36;1mecho "REF=refs/heads/main"^[[0m
+build	marker	2026-07-14T22:01:22.6055700Z ^[[36;1msleep 3^[[0m
+build	marker	2026-07-14T22:01:22.6055940Z ^[[36;1mecho "DONE=11"^[[0m
+build	marker	2026-07-14T22:01:22.6099930Z shell: /bin/bash -e {0}
+build	marker	2026-07-14T22:01:22.6100300Z ##[endgroup]
+build	marker	2026-07-14T22:01:22.6325710Z SCENARIO=11-expr-group-ref
+build	marker	2026-07-14T22:01:22.6326150Z REF=refs/heads/main
+build	marker	2026-07-14T22:01:25.6435970Z DONE=11
+build	Complete job	﻿2026-07-14T22:01:25.6508940Z Cleaning up orphan processes

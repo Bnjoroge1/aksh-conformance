@@ -1,0 +1,27 @@
+caller-job / inner	UNKNOWN STEP	﻿2026-07-14T22:02:08.5497010Z Current runner version: '2.335.1'
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.5500630Z Runner name: 'conformance-test'
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.5500980Z Runner group name: 'Default'
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.5501440Z Machine name: 'Nuraydias-Mac-Studio'
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.5503100Z ##[group]GITHUB_TOKEN Permissions
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.5504100Z Contents: read
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.5504380Z Metadata: read
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.5504630Z Packages: read
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.5504900Z ##[endgroup]
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.5505850Z Secret source: Actions
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.5506190Z Prepare workflow directory
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.5725410Z Prepare all required actions
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.5770080Z Uses: Bnjoroge1/aksh-conformance/.github/workflows/reusable-callee.yml@refs/heads/main (41fc5f179914b58942eb66d0660d39c91e96349a)
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.5772210Z ##[group] Inputs
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.5772490Z   val: embedded-only
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.5772780Z   concurrency_group: embedded-only-group
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.5773100Z ##[endgroup]
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.5773420Z Complete job name: caller-job / inner
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.6181300Z ##[group]Run echo "SCENARIO=reusable-callee input=embedded-only"
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.6181800Z ^[[36;1mecho "SCENARIO=reusable-callee input=embedded-only"^[[0m
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.6182170Z ^[[36;1msleep 4^[[0m
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.6182430Z ^[[36;1mecho "DONE=reusable"^[[0m
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.6226510Z shell: /bin/bash -e {0}
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.6226880Z ##[endgroup]
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:08.6440920Z SCENARIO=reusable-callee input=embedded-only
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:12.6552690Z DONE=reusable
+caller-job / inner	UNKNOWN STEP	2026-07-14T22:02:12.6624170Z Cleaning up orphan processes

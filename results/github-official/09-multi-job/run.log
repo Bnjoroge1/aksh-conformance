@@ -1,0 +1,44 @@
+two	Set up job	﻿2026-07-14T22:00:55.2151770Z Current runner version: '2.335.1'
+two	Set up job	2026-07-14T22:00:55.2155880Z Runner name: 'conformance-test'
+two	Set up job	2026-07-14T22:00:55.2156230Z Runner group name: 'Default'
+two	Set up job	2026-07-14T22:00:55.2156720Z Machine name: 'Nuraydias-Mac-Studio'
+two	Set up job	2026-07-14T22:00:55.2158400Z ##[group]GITHUB_TOKEN Permissions
+two	Set up job	2026-07-14T22:00:55.2159280Z Contents: read
+two	Set up job	2026-07-14T22:00:55.2159550Z Metadata: read
+two	Set up job	2026-07-14T22:00:55.2159820Z Packages: read
+two	Set up job	2026-07-14T22:00:55.2160080Z ##[endgroup]
+two	Set up job	2026-07-14T22:00:55.2160960Z Secret source: Actions
+two	Set up job	2026-07-14T22:00:55.2161310Z Prepare workflow directory
+two	Set up job	2026-07-14T22:00:55.2383860Z Prepare all required actions
+two	Set up job	2026-07-14T22:00:55.2430020Z Complete job name: two
+two	two	﻿2026-07-14T22:00:55.2782270Z ##[group]Run echo "SCENARIO=09-multi-job job=two"
+two	two	2026-07-14T22:00:55.2782710Z ^[[36;1mecho "SCENARIO=09-multi-job job=two"^[[0m
+two	two	2026-07-14T22:00:55.2783030Z ^[[36;1msleep 3^[[0m
+two	two	2026-07-14T22:00:55.2783290Z ^[[36;1mecho "DONE=two"^[[0m
+two	two	2026-07-14T22:00:55.2827580Z shell: /bin/bash -e {0}
+two	two	2026-07-14T22:00:55.2827940Z ##[endgroup]
+two	two	2026-07-14T22:00:55.3037450Z SCENARIO=09-multi-job job=two
+two	two	2026-07-14T22:00:58.3150850Z DONE=two
+two	Complete job	﻿2026-07-14T22:00:58.3225370Z Cleaning up orphan processes
+one	Set up job	﻿2026-07-14T22:01:01.0593310Z Current runner version: '2.335.1'
+one	Set up job	2026-07-14T22:01:01.0597130Z Runner name: 'conformance-test'
+one	Set up job	2026-07-14T22:01:01.0597500Z Runner group name: 'Default'
+one	Set up job	2026-07-14T22:01:01.0598050Z Machine name: 'Nuraydias-Mac-Studio'
+one	Set up job	2026-07-14T22:01:01.0599730Z ##[group]GITHUB_TOKEN Permissions
+one	Set up job	2026-07-14T22:01:01.0600540Z Contents: read
+one	Set up job	2026-07-14T22:01:01.0600820Z Metadata: read
+one	Set up job	2026-07-14T22:01:01.0601080Z Packages: read
+one	Set up job	2026-07-14T22:01:01.0601350Z ##[endgroup]
+one	Set up job	2026-07-14T22:01:01.0602200Z Secret source: Actions
+one	Set up job	2026-07-14T22:01:01.0602530Z Prepare workflow directory
+one	Set up job	2026-07-14T22:01:01.0881860Z Prepare all required actions
+one	Set up job	2026-07-14T22:01:01.0924980Z Complete job name: one
+one	one	﻿2026-07-14T22:01:01.1296320Z ##[group]Run echo "SCENARIO=09-multi-job job=one"
+one	one	2026-07-14T22:01:01.1296780Z ^[[36;1mecho "SCENARIO=09-multi-job job=one"^[[0m
+one	one	2026-07-14T22:01:01.1297110Z ^[[36;1msleep 3^[[0m
+one	one	2026-07-14T22:01:01.1297370Z ^[[36;1mecho "DONE=one"^[[0m
+one	one	2026-07-14T22:01:01.1342840Z shell: /bin/bash -e {0}
+one	one	2026-07-14T22:01:01.1343220Z ##[endgroup]
+one	one	2026-07-14T22:01:01.1565230Z SCENARIO=09-multi-job job=one
+one	one	2026-07-14T22:01:04.1676900Z DONE=one
+one	Complete job	﻿2026-07-14T22:01:04.1751040Z Cleaning up orphan processes

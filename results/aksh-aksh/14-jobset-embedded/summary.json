@@ -1,0 +1,50 @@
+{
+  "run_id": "b7f03ee9-34f0-4332-803c-6ed9734d284e",
+  "submission": {
+    "workflow_yaml": "name: concurrency-14-jobset-embedded-only\non: workflow_dispatch\njobs:\n  caller-job:\n    uses: ./.github/workflows/reusable-callee.yml\n    with:\n      val: \"embedded-only\"\n      concurrency_group: \"embedded-only-group\"\n",
+    "event": "workflow_dispatch",
+    "payload": null,
+    "repository": "owner/repo",
+    "git_ref": "refs/heads/main",
+    "vars": {},
+    "secrets": {},
+    "reusable_workflows": {
+      ".github/workflows/reusable-callee.yml": "name: reusable-callee\non:\n  workflow_call:\n    inputs:\n      val:\n        required: true\n        type: string\n      concurrency_group:\n        required: false\n        type: string\n        default: \"\"\nconcurrency:\n  group: ${{ inputs.concurrency_group }}\njobs:\n  inner:\n    runs-on: self-hosted\n    steps:\n      - name: run-inner\n        run: |\n          echo \"SCENARIO=reusable-callee input=${{ inputs.val }}\"\n          sleep 4\n          echo \"DONE=reusable\"\n"
+    },
+    "enable_debugger": false,
+    "debugger_welcome_message": null
+  },
+  "jobs": {
+    "caller-job/inner": "success"
+  },
+  "status": "success",
+  "job_outputs": {
+    "caller-job": {},
+    "caller-job/inner": {}
+  },
+  "job_base_ids": {
+    "caller-job/inner": "caller-job/inner"
+  },
+  "job_fail_fast": {
+    "caller-job/inner": true
+  },
+  "job_check_run_ids": {},
+  "reusable_calls": {
+    "caller-job": {
+      "caller_job_id": "caller-job",
+      "output_definitions": {},
+      "inner_job_ids": [
+        "caller-job/inner"
+      ],
+      "inputs": {
+        "concurrency_group": "embedded-only-group",
+        "val": "embedded-only"
+      },
+      "embedded_concurrency": {
+        "group": "${{ inputs.concurrency_group }}",
+        "cancel_in_progress": null,
+        "queue": "single"
+      }
+    }
+  }
+}

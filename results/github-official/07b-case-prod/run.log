@@ -1,0 +1,22 @@
+build	Set up job	﻿2026-07-14T22:00:19.4201200Z Current runner version: '2.335.1'
+build	Set up job	2026-07-14T22:00:19.4205160Z Runner name: 'conformance-test'
+build	Set up job	2026-07-14T22:00:19.4205570Z Runner group name: 'Default'
+build	Set up job	2026-07-14T22:00:19.4206070Z Machine name: 'Nuraydias-Mac-Studio'
+build	Set up job	2026-07-14T22:00:19.4207710Z ##[group]GITHUB_TOKEN Permissions
+build	Set up job	2026-07-14T22:00:19.4208600Z Contents: read
+build	Set up job	2026-07-14T22:00:19.4208880Z Metadata: read
+build	Set up job	2026-07-14T22:00:19.4209140Z Packages: read
+build	Set up job	2026-07-14T22:00:19.4209400Z ##[endgroup]
+build	Set up job	2026-07-14T22:00:19.4210290Z Secret source: Actions
+build	Set up job	2026-07-14T22:00:19.4210640Z Prepare workflow directory
+build	Set up job	2026-07-14T22:00:19.4428840Z Prepare all required actions
+build	Set up job	2026-07-14T22:00:19.4474920Z Complete job name: build
+build	marker	﻿2026-07-14T22:00:19.4904610Z ##[group]Run echo "SCENARIO=07-case-prod"
+build	marker	2026-07-14T22:00:19.4905010Z ^[[36;1mecho "SCENARIO=07-case-prod"^[[0m
+build	marker	2026-07-14T22:00:19.4905380Z ^[[36;1msleep 5^[[0m
+build	marker	2026-07-14T22:00:19.4905630Z ^[[36;1mecho "DONE=07b"^[[0m
+build	marker	2026-07-14T22:00:19.4949710Z shell: /bin/bash -e {0}
+build	marker	2026-07-14T22:00:19.4950060Z ##[endgroup]
+build	marker	2026-07-14T22:00:19.5214780Z SCENARIO=07-case-prod
+build	marker	2026-07-14T22:00:24.5327690Z DONE=07b
+build	Complete job	﻿2026-07-14T22:00:24.5403170Z Cleaning up orphan processes
