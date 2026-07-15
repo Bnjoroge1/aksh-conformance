@@ -5,6 +5,6 @@ jobs:
     concurrency:
       group: caller-only-group
       cancel-in-progress: false
-    uses: ./.github/workflows/reusable-callee.yml
+    uses: Bnjoroge1/aksh-conformance/.github/workflows/reusable-callee.yml@main
     with:
       val: "caller-only"
