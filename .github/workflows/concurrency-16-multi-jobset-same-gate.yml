@@ -4,15 +4,15 @@ jobs:
   call-1:
     uses: ./.github/workflows/reusable-callee-concurrency.yml
     with:
-      val: "multi-jobset-1"
+      val: "multi-jobset"
       concurrency_group: "shared-embedded-16"
   call-2:
     uses: ./.github/workflows/reusable-callee-concurrency.yml
     with:
-      val: "multi-jobset-2"
+      val: "multi-jobset"
       concurrency_group: "shared-embedded-16"
   call-3:
     uses: ./.github/workflows/reusable-callee-concurrency.yml
     with:
-      val: "multi-jobset-3"
+      val: "multi-jobset"
       concurrency_group: "shared-embedded-16"
