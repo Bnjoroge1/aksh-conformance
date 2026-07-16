@@ -42,6 +42,7 @@ SCENARIO_WORKFLOWS = {
     "15-jobset-different-key": "concurrency-15-jobset-different-key.yml",
     "16-multi-jobset-same-gate": "concurrency-16-multi-jobset-same-gate.yml",
     "17-jobset-overlap-gates": "concurrency-17-jobset-overlap-gates.yml",
+    "18-lease-expiry": "concurrency-18-lease-expiry.yml",
 }
 
 ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
@@ -234,22 +235,62 @@ def compare_scenarios(left: SideCapture, right: SideCapture) -> dict:
         else:
             notes.append(f"DONE marker verified: {dm}")
 
-    # Step matching
-    left_user = {k: v for k, v in left.step_conclusions.items() if k not in ("Set up job", "Complete job")}
-    right_user = {k: v for k, v in right.step_conclusions.items() if k not in ("Set up job", "Complete job")}
-    for sname, sconc in left_user.items():
-        matched_conc = None
-        for rname, rconc in right_user.items():
-            if sname == rname or sname in rname or rname in sname:
-                matched_conc = rconc
-                break
-        if matched_conc:
-            if norm(sconc) != norm(matched_conc):
-                issues.append(f"Step '{sname}' conclusion mismatch: {left.name}={sconc} vs {right.name}={matched_conc}")
-            else:
-                notes.append(f"Step '{sname}' match: conclusion={norm(sconc)}")
+    # Strict job cardinality and conclusions.
+    if len(left.jobs) != len(right.jobs):
+        issues.append(f"Job count mismatch: {left.name}={len(left.jobs)} vs {right.name}={len(right.jobs)}")
+    left_jobs = sorted(norm(v) for v in left.jobs.values())
+    right_jobs = sorted(norm(v) for v in right.jobs.values())
+    if left_jobs != right_jobs:
+        issues.append(f"Job conclusions mismatch: {left.name}={left_jobs} vs {right.name}={right_jobs}")
+    else:
+        notes.append(f"Job conclusions match: {left_jobs}")
+
+    # Strict one-to-one user-step matching, including missing/additional steps.
+    infra = {"Set up job", "Complete job", "Set up runner", "Complete runner"}
+    left_user = {k: v for k, v in left.step_conclusions.items() if k not in infra}
+    right_user = {k: v for k, v in right.step_conclusions.items() if k not in infra}
+    if len(left_user) != len(right_user):
+        issues.append(f"User step count mismatch: {left.name}={len(left_user)} vs {right.name}={len(right_user)}")
+    unmatched = set(right_user)
+    pairs = []
+    for lname, lconc in left_user.items():
+        candidates = [rname for rname in unmatched if lname == rname or lname in rname or rname in lname]
+        if not candidates and len(left_user) == 1 and len(right_user) == 1:
+            candidates = list(unmatched)
+        if not candidates:
+            issues.append(f"Missing step '{lname}' in {right.name}")
+            continue
+        rname = sorted(candidates)[0]
+        unmatched.remove(rname)
+        pairs.append((lname, rname))
+        if norm(lconc) != norm(right_user[rname]):
+            issues.append(f"Step conclusion mismatch: {lname}={lconc} vs {rname}={right_user[rname]}")
+    for rname in sorted(unmatched):
+        issues.append(f"Unexpected step '{rname}' in {right.name}")
+
+    # Compare semantic log output for every matched step. Timestamps, ANSI
+    # escapes, and runner infrastructure lines are intentionally ignored;
+    # user output and cancellation annotations are not.
+    def semantic(lines):
+        out = []
+        for line in lines:
+            value = strip_noise(line)
+            if not value or any(x in value for x in (
+                "Current runner version", "Prepare workflow directory",
+                "Prepare all required actions", "Operating System", "Runner Image",
+                "GITHUB_TOKEN Permissions", "shell: /usr/bin/bash", "Cleaning up orphan processes",
+            )):
+                continue
+            out.append(value)
+        return out
+
+    for lname, rname in pairs:
+        ll = semantic(left.step_logs.get(lname, []))
+        rr = semantic(right.step_logs.get(rname, []))
+        if ll != rr:
+            issues.append(f"Step log mismatch: '{lname}' vs '{rname}' left={ll!r} right={rr!r}")
         else:
-            notes.append(f"No step matching '{sname}' found in {right.name}")
+            notes.append(f"Step log match: '{lname}'")
 
     return {
         "ok": len(issues) == 0,
