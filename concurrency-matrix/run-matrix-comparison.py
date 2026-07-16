@@ -191,6 +191,13 @@ def load_capture(dir_path: Path) -> SideCapture:
             for s in j.get("steps", []):
                 if s.get("name"):
                     step_conc[s["name"]] = s.get("conclusion") or s.get("status") or ""
+    # The local runner emits plain lines without job/step tab prefixes. When
+    # the capture has exactly one declared user step, attach the unstructured
+    # lines to that step so semantic log content remains comparable.
+    if "_" in steps:
+        declared = [name for name in step_conc if name not in {"Set up job", "Complete job", "Set up runner", "Complete runner"}]
+        if len(declared) == 1:
+            steps[declared[0]] = steps.pop("_")
     return SideCapture(
         name=dir_path.name,
         conclusion=summary.get("conclusion") or summary.get("status"),
@@ -279,7 +286,9 @@ def compare_scenarios(left: SideCapture, right: SideCapture) -> dict:
                 "Current runner version", "Prepare workflow directory",
                 "Prepare all required actions", "Operating System", "Runner Image",
                 "GITHUB_TOKEN Permissions", "shell: /usr/bin/bash", "Cleaning up orphan processes",
-            )):
+                "Runner name:", "Runner group name:", "Machine name:", "Secret source:",
+                "Complete job name:", "##[group]Run", "##[endgroup]",
+            )) or value.startswith("echo ") or value.startswith("sleep ") or "echo \"" in value or "sleep " in value:
                 continue
             out.append(value)
         return out
