@@ -1,0 +1,19 @@
+name: concurrency-17-jobset-overlap-gates
+on: workflow_dispatch
+jobs:
+  call-a:
+    concurrency:
+      group: overlap-caller-A
+      cancel-in-progress: false
+    uses: ./.github/workflows/reusable-callee-concurrency.yml
+    with:
+      val: "overlap-A"
+      concurrency_group: "overlap-shared"
+  call-b:
+    concurrency:
+      group: overlap-caller-B
+      cancel-in-progress: false
+    uses: ./.github/workflows/reusable-callee-concurrency.yml
+    with:
+      val: "overlap-B"
+      concurrency_group: "overlap-shared"
