@@ -11,6 +11,7 @@ Also compares any two captured results directories.
 
 import os
 import sys
+import ssl
 import json
 import time
 import re
@@ -39,6 +40,8 @@ SCENARIO_WORKFLOWS = {
     "13-jobset-caller-only": "concurrency-13-jobset-caller-only.yml",
     "14-jobset-embedded-only": "concurrency-14-jobset-embedded-only.yml",
     "15-jobset-different-key": "concurrency-15-jobset-different-key.yml",
+    "16-multi-jobset-same-gate": "concurrency-16-multi-jobset-same-gate.yml",
+    "17-jobset-overlap-gates": "concurrency-17-jobset-overlap-gates.yml",
 }
 
 ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
@@ -101,8 +104,9 @@ def api_request(method: str, url: str, body: dict = None) -> dict:
         "Content-Type": "application/json"
     }
     req = urllib.request.Request(url, data=data, headers=headers, method=method)
+    context = ssl._create_unverified_context() if url.startswith("https") else None
     try:
-        with urllib.request.urlopen(req) as r:
+        with urllib.request.urlopen(req, context=context) as r:
             raw = r.read()
         if not raw:
             return {}
@@ -175,14 +179,17 @@ def load_capture(dir_path: Path) -> SideCapture:
 
     step_conc = {}
     jobs = {}
-    for j in summary.get("jobs", []):
-        name = j.get("name") or j.get("id") or ""
-        conclusion = j.get("conclusion") or j.get("status") or ""
-        jobs[name] = conclusion
-        for s in j.get("steps", []):
-            if s.get("name"):
-                step_conc[s["name"]] = s.get("conclusion") or s.get("status") or ""
-
+    raw_jobs = summary.get("jobs_list") or summary.get("jobs") or []
+    if isinstance(raw_jobs, dict):
+        jobs = {str(k): str(v) for k, v in raw_jobs.items()}
+    else:
+        for j in raw_jobs:
+            name = j.get("name") or j.get("id") or ""
+            conclusion = j.get("conclusion") or j.get("status") or ""
+            jobs[name] = conclusion
+            for s in j.get("steps", []):
+                if s.get("name"):
+                    step_conc[s["name"]] = s.get("conclusion") or s.get("status") or ""
     return SideCapture(
         name=dir_path.name,
         conclusion=summary.get("conclusion") or summary.get("status"),
@@ -253,7 +260,7 @@ def compare_scenarios(left: SideCapture, right: SideCapture) -> dict:
 
 # ─── Runner/Server Orchestration (Local) ──────────────────────────────────────
 
-def start_aksh_server(port: int, state_dir: Path) -> subprocess.Popen:
+def start_aksh_server(port: int, state_dir: Path, use_tls: bool) -> subprocess.Popen:
     print(f"Starting aksh-runner-server serve on port {port}...")
     state_dir.mkdir(parents=True, exist_ok=True)
     # We want to run aksh-runner-server from target/release/aksh-runner-server
@@ -264,19 +271,27 @@ def start_aksh_server(port: int, state_dir: Path) -> subprocess.Popen:
         raise FileNotFoundError("Could not find aksh-runner-server binary.")
     
     env = os.environ.copy()
-    env["AKSH_PUBLIC_URL"] = f"http://127.0.0.1:{port}"
+    env["AKSH_PUBLIC_URL"] = f"https://127.0.0.1:{port}" if use_tls else f"http://127.0.0.1:{port}"
+    
+    args = [str(server_bin), "serve", "--listen", f"127.0.0.1:{port}", "--state-dir", str(state_dir)]
+    if use_tls:
+        args.append("--tls-self-signed")
+        
+    log_file = open("/tmp/aksh-server.log", "w")
     p = subprocess.Popen(
-        [str(server_bin), "serve", "--listen", f"127.0.0.1:{port}", "--state-dir", str(state_dir)],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
+        args,
+        stdout=log_file,
+        stderr=log_file,
         env=env
     )
     # Wait for server ready
     start_time = time.time()
+    ssl_ctx = ssl._create_unverified_context() if use_tls else None
     while time.time() - start_time < 15:
         try:
-            req = urllib.request.Request(f"http://127.0.0.1:{port}/healthz")
-            with urllib.request.urlopen(req) as response:
+            scheme = "https" if use_tls else "http"
+            req = urllib.request.Request(f"{scheme}://127.0.0.1:{port}/healthz")
+            with urllib.request.urlopen(req, context=ssl_ctx) as response:
                 if response.status == 200:
                     print("aksh-runner-server is ready.")
                     return p
@@ -285,12 +300,12 @@ def start_aksh_server(port: int, state_dir: Path) -> subprocess.Popen:
     p.terminate()
     raise TimeoutError("aksh-runner-server failed to start in time.")
 
-def start_runner(runner_type: str, server_url: str, runner_dir: Path, state_dir: Path) -> subprocess.Popen:
+def start_runner(runner_type: str, server_url: str, runner_dir: Path, state_dir: Path, use_tls: bool) -> subprocess.Popen:
     print(f"Configuring and starting {runner_type} runner...")
     if runner_type == "official":
         # Configure official runner
         # 1. Fetch token
-        resp = api_request("POST", f"{server_url}/api/v3/repos/owner/repo/actions/runners/registration-token")
+        resp = api_request("POST", f"{server_url}/api/v3/repos/owner/repo/actions/runners/registration-token", {})
         token = resp["token"]
         # 2. Run config
         config_script = runner_dir / "config.sh"
@@ -299,7 +314,8 @@ def start_runner(runner_type: str, server_url: str, runner_dir: Path, state_dir:
         # Clean old config
         for f in (".runner", ".credentials", ".credentials_rsaparams"):
             (runner_dir / f).unlink(missing_ok=True)
-        subprocess.run([
+            
+        config_args = [
             str(config_script), "--unattended",
             "--url", f"{server_url}/runner/server",
             "--token", token,
@@ -307,11 +323,18 @@ def start_runner(runner_type: str, server_url: str, runner_dir: Path, state_dir:
             "--labels", "self-hosted,fidelity-test",
             "--work", "_work",
             "--replace"
-        ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, cwd=runner_dir)
+        ]
+        if use_tls:
+            config_args.append("--ss-skip-tls-verify")
+            
+        subprocess.run(config_args, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, cwd=runner_dir)
         
         # 3. Start runner
         run_script = runner_dir / "run.sh"
-        p = subprocess.Popen([str(run_script)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, cwd=runner_dir)
+        env = os.environ.copy()
+        if use_tls:
+            env["GITHUB_ACTIONS_RUNNER_SKIP_TLS_VERIFY"] = "1"
+        p = subprocess.Popen([str(run_script)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, cwd=runner_dir, env=env)
         return p
     else:
         # Configure aksh-runner
@@ -327,6 +350,7 @@ def start_runner(runner_type: str, server_url: str, runner_dir: Path, state_dir:
             str(runner_bin), "configure",
             "--url", server_url,
             "--token", "aksh-system-token",
+            "--replace",
             "--name", f"aksh-{int(time.time())}",
             "--labels", "self-hosted,fidelity-test",
             "--work", str(work_dir)
@@ -345,15 +369,20 @@ def execute_local_scenario(scenario: str, server_url: str, state_dir: Path, out_
     
     reusable_map = {}
     if "jobset" in scenario:
-        callee_path = Path(".github/workflows/reusable-callee.yml")
-        reusable_map["./.github/workflows/reusable-callee.yml"] = callee_path.read_text(encoding="utf-8")
-        # Also check local workflow directory path variant
-        reusable_map[".github/workflows/reusable-callee.yml"] = callee_path.read_text(encoding="utf-8")
+        for callee_name in ("reusable-callee.yml", "reusable-callee-concurrency.yml"):
+            callee_path = Path(".github/workflows") / callee_name
+            callee_yaml = callee_path.read_text(encoding="utf-8")
+            reusable_map[f"./.github/workflows/{callee_name}"] = callee_yaml
+            reusable_map[f".github/workflows/{callee_name}"] = callee_yaml
+            if callee_name == "reusable-callee.yml":
+                reusable_map[
+                    "Bnjoroge1/aksh-conformance/.github/workflows/reusable-callee.yml@main"
+                ] = callee_yaml
 
     def submit_one(name_suffix: str = ""):
         body = {
             "workflow_yaml": yaml_text,
-            "event": "push",
+            "event": "workflow_dispatch",
             "repository": "owner/repo",
             "reusable_workflows": reusable_map
         }
@@ -372,14 +401,22 @@ def execute_local_scenario(scenario: str, server_url: str, state_dir: Path, out_
         runs.append(("01-bare-A", submit_one()))
         time.sleep(1.0)
         runs.append(("01-bare-B", submit_one()))
-    elif scenario in ("02-cancel-in-progress", "04-cancel-expr-true"):
-        runs.append((f"{scenario[:2]}-cancel-A", submit_one()))
+    elif scenario == "02-cancel-in-progress":
+        runs.append(("02-cancel-A", submit_one()))
         time.sleep(2.0)
-        runs.append((f"{scenario[:2]}-cancel-B", submit_one()))
-    elif scenario in ("03-fifo-pending", "05-cancel-expr-false"):
-        runs.append((f"{scenario[:2]}-A", submit_one()))
+        runs.append(("02-cancel-B", submit_one()))
+    elif scenario == "04-cancel-expr-true":
+        runs.append(("04-cancel-expr-A", submit_one()))
+        time.sleep(2.0)
+        runs.append(("04-cancel-expr-B", submit_one()))
+    elif scenario == "03-fifo-pending":
+        runs.append(("03-fifo-A", submit_one()))
         time.sleep(1.0)
-        runs.append((f"{scenario[:2]}-B", submit_one()))
+        runs.append(("03-fifo-B", submit_one()))
+    elif scenario == "05-cancel-expr-false":
+        runs.append(("05-expr-false-A", submit_one()))
+        time.sleep(1.0)
+        runs.append(("05-expr-false-B", submit_one()))
     elif scenario == "06-queue-max":
         runs.append(("06-queue-max-A", submit_one()))
         time.sleep(0.5)
@@ -387,10 +424,17 @@ def execute_local_scenario(scenario: str, server_url: str, state_dir: Path, out_
         time.sleep(0.5)
         runs.append(("06-queue-max-C", submit_one()))
     elif scenario in ("07a-case-Prod", "07b-case-prod"):
-        # Trigger Case variants sequentially
-        runs.append(("07-case-A", submit_one()))
-    else:
         runs.append((scenario, submit_one()))
+    else:
+        capture_name = {
+            "09-multi-job-hold": "09-multi-job",
+            "11-expr-group-ref": "11-expr-group",
+            "12-matrix-same-group": "12-matrix",
+            "13-jobset-caller-only": "13-jobset-caller",
+            "14-jobset-embedded-only": "14-jobset-embedded",
+            "15-jobset-different-key": "15-jobset-diffkey",
+        }.get(scenario, scenario)
+        runs.append((capture_name, submit_one()))
 
     results = {}
     for name, run_id in runs:
@@ -424,9 +468,10 @@ def execute_local_scenario(scenario: str, server_url: str, state_dir: Path, out_
         # Fetch logs via GET /api/v1/runs/:run_id/logs
         log_text = ""
         try:
+            context = ssl._create_unverified_context() if server_url.startswith("https") else None
             req = urllib.request.Request(f"{server_url}/api/v1/runs/{run_id}/logs")
             req.add_header("Authorization", "Bearer aksh-system-token")
-            with urllib.request.urlopen(req) as response:
+            with urllib.request.urlopen(req, context=context) as response:
                 log_text = response.read().decode("utf-8", "replace")
         except Exception as e:
             print(f"Warning: failed to fetch REST logs for run {run_id}: {e}")
@@ -526,12 +571,16 @@ def execute_github_scenario(scenario: str, repo: str, token: str, ref: str, out_
         (run_dir / "run.json").write_text(json.dumps({"run_id": run_id, "status": conclusion}, indent=2))
         
         # Fetch logs via gh run view --log
-        log_text = run_cmd([
-            "gh", "run", "view",
-            "--repo", repo,
-            run_id,
-            "--log"
-        ])
+        log_text = ""
+        try:
+            log_text = run_cmd([
+                "gh", "run", "view",
+                "--repo", repo,
+                run_id,
+                "--log"
+            ])
+        except Exception as e:
+            print(f"Warning: failed to fetch log for GitHub run {run_id}: {e}")
         (run_dir / "run.log").write_text(log_text, encoding="utf-8")
         results[name] = conclusion
         print(f"GitHub run {name} finished with status: {conclusion}")
@@ -614,18 +663,82 @@ def main() -> int:
     try:
         if args.server == "aksh":
             # Start local server
-            server_proc = start_aksh_server(args.port, args.state_dir)
+            use_tls = (args.runner == "official")
+            server_proc = start_aksh_server(args.port, args.state_dir, use_tls)
             # Start local runner (aksh or official)
-            server_url = f"http://127.0.0.1:{args.port}"
-            runner_proc = start_runner(args.runner, server_url, args.runner_dir, args.state_dir)
-            
+            server_url = f"https://127.0.0.1:{args.port}" if use_tls else f"http://127.0.0.1:{args.port}"
+            runner_proc = start_runner(args.runner, server_url, args.runner_dir, args.state_dir, use_tls)
             # Wait for runner to register
+            time.sleep(3.0)
+        elif args.server == "github" and args.runner == "aksh":
+            # Fetch registration token from GitHub
+            print("Fetching GitHub runner registration token...")
+            token = run_cmd([
+                "gh", "api",
+                f"repos/{args.repo}/actions/runners/registration-token",
+                "--method", "POST",
+                "--jq", ".token"
+            ])
+            
+            # Configure and start aksh-runner against GitHub
+            print("Configuring aksh-runner against GitHub...")
+            runner_bin = Path("target/release/aksh-runner")
+            if not runner_bin.exists():
+                runner_bin = Path("target/debug/aksh-runner")
+            if not runner_bin.exists():
+                raise FileNotFoundError("Could not find aksh-runner binary.")
+                
+            work_dir = args.state_dir / "runner-work-github"
+            work_dir.mkdir(parents=True, exist_ok=True)
+            subprocess.run([
+                str(runner_bin), "configure",
+                "--url", f"https://github.com/{args.repo}",
+                "--token", token,
+                "--replace",
+                "--name", f"aksh-github-{int(time.time())}",
+                "--labels", "self-hosted,fidelity-test",
+                "--work", str(work_dir)
+            ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            
+            print("Starting aksh-runner against GitHub...")
+            runner_proc = subprocess.Popen([str(runner_bin), "run"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            time.sleep(3.0)
+        elif args.server == "github" and args.runner == "official":
+            # Fetch registration token from GitHub
+            print("Fetching GitHub runner registration token...")
+            token = run_cmd([
+                "gh", "api",
+                f"repos/{args.repo}/actions/runners/registration-token",
+                "--method", "POST",
+                "--jq", ".token"
+            ])
+            
+            # Configure and start official-runner against GitHub
+            print("Configuring official-runner against GitHub...")
+            config_script = args.runner_dir / "config.sh"
+            if not config_script.exists():
+                raise FileNotFoundError(f"Could not find config.sh in {args.runner_dir}")
+            for f in (".runner", ".credentials", ".credentials_rsaparams"):
+                (args.runner_dir / f).unlink(missing_ok=True)
+            subprocess.run([
+                str(config_script), "--unattended",
+                "--url", f"https://github.com/{args.repo}",
+                "--token", token,
+                "--name", f"official-github-{int(time.time())}",
+                "--labels", "self-hosted,fidelity-test",
+                "--work", "_work",
+                "--replace"
+            ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, cwd=args.runner_dir)
+            
+            print("Starting official-runner against GitHub...")
+            run_script = args.runner_dir / "run.sh"
+            runner_proc = subprocess.Popen([str(run_script)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, cwd=args.runner_dir)
             time.sleep(3.0)
 
         results = {}
         for scenario in scenarios_to_run:
             if args.server == "aksh":
-                res = execute_local_scenario(scenario, f"http://127.0.0.1:{args.port}", args.state_dir, out_path)
+                res = execute_local_scenario(scenario, server_url, args.state_dir, out_path)
             else:
                 token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN", "")
                 res = execute_github_scenario(scenario, args.repo, token, args.ref, out_path)
