@@ -482,9 +482,9 @@ def execute_local_scenario(scenario: str, server_url: str, state_dir: Path, out_
         print(f"Waiting for run {name} ({run_id}) to complete...")
         run_url = f"{server_url}/api/v1/runs/{run_id}"
         
-        # Poll for completion
-        conclusion = None
-        for _ in range(120):
+        # Lease scenario intentionally sleeps past the normal 120s poll window.
+        poll_limit = 180 if scenario == "18-lease-expiry" else 120
+        for _ in range(poll_limit):
             time.sleep(1.0)
             run_obj = api_request("GET", run_url)
             status = run_obj.get("status")
