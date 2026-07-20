@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   cancellable:
-    runs-on: self-hosted
+    runs-on: [self-hosted, overnight]
     steps:
       - name: Start background worker
         shell: bash

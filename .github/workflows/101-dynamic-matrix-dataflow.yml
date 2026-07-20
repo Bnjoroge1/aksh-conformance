@@ -9,7 +9,7 @@ on:
         type: string
 jobs:
   produce:
-    runs-on: self-hosted
+    runs-on: [self-hosted, overnight]
     outputs:
       matrix: ${{ steps.data.outputs.matrix }}
       multiline: ${{ steps.data.outputs.multiline }}
@@ -34,7 +34,7 @@ jobs:
       fail-fast: false
       max-parallel: 1
       matrix: ${{ fromJSON(needs.produce.outputs.matrix) }}
-    runs-on: self-hosted
+    runs-on: [self-hosted, overnight]
     outputs:
       observed: ${{ steps.observe.outputs.observed }}
     steps:
@@ -53,7 +53,7 @@ jobs:
   aggregate:
     if: always()
     needs: [produce, matrix]
-    runs-on: self-hosted
+    runs-on: [self-hosted, overnight]
     steps:
       - name: Verify dependency results
         shell: bash

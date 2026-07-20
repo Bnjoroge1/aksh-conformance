@@ -8,7 +8,7 @@ defaults:
     shell: bash
 jobs:
   filesystem:
-    runs-on: self-hosted
+    runs-on: [self-hosted, overnight]
     env:
       LEVEL: job
     steps:

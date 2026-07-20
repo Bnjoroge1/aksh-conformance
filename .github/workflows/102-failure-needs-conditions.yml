@@ -2,7 +2,7 @@ name: 102 failure needs conditions
 on: workflow_dispatch
 jobs:
   soft-failure:
-    runs-on: self-hosted
+    runs-on: [self-hosted, overnight]
     steps:
       - id: tolerated
         name: Tolerated failure
@@ -17,7 +17,7 @@ jobs:
           test '${{ steps.tolerated.outcome }}' = failure
           test '${{ steps.tolerated.conclusion }}' = success
   hard-failure:
-    runs-on: self-hosted
+    runs-on: [self-hosted, overnight]
     steps:
       - name: Before failure
         run: "echo 'AKSH_ORACLE: before=ran'"
@@ -34,13 +34,13 @@ jobs:
         run: "echo 'AKSH_ORACLE: always=ran'"
   skipped:
     if: github.ref == 'refs/heads/never-run-this-job'
-    runs-on: self-hosted
+    runs-on: [self-hosted, overnight]
     steps:
       - run: echo MUST_NOT_RUN
   observer:
     if: always()
     needs: [soft-failure, hard-failure, skipped]
-    runs-on: self-hosted
+    runs-on: [self-hosted, overnight]
     steps:
       - name: Observe results and annotations
         shell: bash

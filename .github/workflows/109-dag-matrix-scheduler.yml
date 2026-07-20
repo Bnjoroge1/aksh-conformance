@@ -2,7 +2,7 @@ name: 109 dag matrix scheduler
 on: workflow_dispatch
 jobs:
   root:
-    runs-on: self-hosted
+    runs-on: [self-hosted, overnight]
     outputs:
       token: ${{ steps.root.outputs.token }}
     steps:
@@ -21,7 +21,7 @@ jobs:
             expected: success
           - name: tolerated
             expected: failure
-    runs-on: self-hosted
+    runs-on: [self-hosted, overnight]
     continue-on-error: ${{ matrix.expected == 'failure' }}
     outputs:
       cell: ${{ steps.cell.outputs.cell }}
@@ -40,7 +40,7 @@ jobs:
   test:
     if: always()
     needs: [root, build]
-    runs-on: self-hosted
+    runs-on: [self-hosted, overnight]
     steps:
       - name: Observe matrix aggregate
         shell: bash
@@ -54,13 +54,13 @@ jobs:
           echo "AKSH_ORACLE: root=$ROOT build=$BUILD"
   package:
     needs: test
-    runs-on: self-hosted
+    runs-on: [self-hosted, overnight]
     steps:
       - run: "echo 'AKSH_ORACLE: package=ran'"
   final:
     if: always()
     needs: [root, build, test, package]
-    runs-on: self-hosted
+    runs-on: [self-hosted, overnight]
     steps:
       - run: >-
           echo "AKSH_ORACLE: final root=${{ needs.root.result }}

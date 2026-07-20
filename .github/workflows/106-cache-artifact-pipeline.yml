@@ -2,7 +2,7 @@ name: 106 cache artifact pipeline
 on: workflow_dispatch
 jobs:
   create:
-    runs-on: self-hosted
+    runs-on: [self-hosted, overnight]
     steps:
       - name: Create unusual files
         shell: bash
@@ -32,7 +32,7 @@ jobs:
           path: ${{ runner.temp }}/overnight-artifact/hashes.txt
   verify:
     needs: create
-    runs-on: self-hosted
+    runs-on: [self-hosted, overnight]
     steps:
       - name: Download artifact
         uses: actions/download-artifact@34e114876b0b11c390a56381ad16ebd13914f8d5

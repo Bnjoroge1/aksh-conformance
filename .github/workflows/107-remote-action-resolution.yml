@@ -2,7 +2,7 @@ name: 107 remote action resolution
 on: workflow_dispatch
 jobs:
   actions:
-    runs-on: self-hosted
+    runs-on: [self-hosted, overnight]
     steps:
       - name: Checkout pinned action source
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5

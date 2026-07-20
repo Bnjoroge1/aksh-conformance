@@ -2,7 +2,7 @@ name: 105 command logs annotations
 on: workflow_dispatch
 jobs:
   logs:
-    runs-on: self-hosted
+    runs-on: [self-hosted, overnight]
     steps:
       - name: Groups and annotations
         shell: bash

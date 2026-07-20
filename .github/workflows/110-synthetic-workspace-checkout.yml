@@ -2,7 +2,7 @@ name: 110 synthetic workspace checkout
 on: workflow_dispatch
 jobs:
   verify:
-    runs-on: self-hosted
+    runs-on: [self-hosted, overnight]
     steps:
       - name: Primary checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5

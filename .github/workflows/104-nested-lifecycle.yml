@@ -2,7 +2,7 @@ name: 104 nested lifecycle semantics
 on: workflow_dispatch
 jobs:
   lifecycle:
-    runs-on: self-hosted
+    runs-on: [self-hosted, overnight]
     env:
       TRACE: lifecycle-trace
     steps:
