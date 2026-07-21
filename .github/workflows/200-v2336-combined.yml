@@ -32,7 +32,7 @@ jobs:
         continue-on-error: true
         run: exit 1
       - name: After soft failure
-        run: echo "AKSH_ORACLE: after-soft-fail=ran"
+        run: 'echo "AKSH_ORACLE: after-soft-fail=ran"'
       - name: Add to PATH
         run: echo "/tmp/v2336-test-bin" >> "$GITHUB_PATH"
       - name: Verify PATH
@@ -46,6 +46,6 @@ jobs:
           echo "All checks passed." >> "$GITHUB_STEP_SUMMARY"
           echo "AKSH_ORACLE: summary=written"
       - name: Check cache mode
-        run: echo "AKSH_ORACLE: ACTIONS_CACHE_MODE=${ACTIONS_CACHE_MODE:-unset}"
+        run: 'echo "AKSH_ORACLE: ACTIONS_CACHE_MODE=${ACTIONS_CACHE_MODE:-unset}"'
       - name: All v2336 checks passed
-        run: echo "AKSH_ORACLE: all-checks=passed"
+        run: 'echo "AKSH_ORACLE: all-checks=passed"'

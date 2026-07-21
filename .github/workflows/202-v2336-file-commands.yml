@@ -48,4 +48,4 @@ jobs:
           echo "AKSH_ORACLE: GITHUB_ARTIFACTS=${GITHUB_ARTIFACTS:-unset}"
           echo "AKSH_ORACLE: GITHUB_ARTIFACTS_LIST=${GITHUB_ARTIFACTS_LIST:-unset}"
       - name: All file command checks passed
-        run: echo "AKSH_ORACLE: all-fc-checks=passed"
+        run: 'echo "AKSH_ORACLE: all-fc-checks=passed"'
