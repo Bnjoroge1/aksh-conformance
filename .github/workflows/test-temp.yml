@@ -1,7 +1,7 @@
 name: test-temp
 on: workflow_dispatch
 jobs:
-  bgcancel:
+  build:
     runs-on: [self-hosted, overnight]
     steps:
       - name: Normal step
