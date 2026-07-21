@@ -7,7 +7,6 @@ jobs:
       - name: Normal step
         run: echo "AKSH_ORACLE: normal-step=ok"
       - name: Soft cancel step
-        continue-on-error: true
         run: |
           echo "AKSH_ORACLE: about-to-fail"
           exit 1
