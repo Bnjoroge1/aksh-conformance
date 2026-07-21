@@ -5,5 +5,4 @@ jobs:
     runs-on: [self-hosted, overnight]
     steps:
       - name: marker
-        run: |
-          echo "SCENARIO=test-temp"
+        run: echo "SCENARIO=test-temp"
