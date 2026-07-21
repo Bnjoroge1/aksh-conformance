@@ -4,5 +4,5 @@ jobs:
   build:
     runs-on: [self-hosted, overnight]
     steps:
-      - name: Normal step
+      - name: marker
         run: echo "AKSH_ORACLE: normal-step=ok"
