@@ -1,8 +1,17 @@
 name: test-temp
 on: workflow_dispatch
 jobs:
-  build:
+  bg-cancel:
     runs-on: [self-hosted, overnight]
     steps:
-      - name: marker
-        run: echo "SCENARIO=test-temp"
+      - name: Normal step
+        run: echo "AKSH_ORACLE: normal-step=ok"
+      - name: Soft cancel step
+        continue-on-error: true
+        run: |
+          echo "AKSH_ORACLE: about-to-fail"
+          exit 1
+      - name: After cancel
+        run: echo "AKSH_ORACLE: after-cancel=ran"
+      - name: Job conclusion check
+        run: echo "AKSH_ORACLE: job-conclusion=success"
