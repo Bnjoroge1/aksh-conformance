@@ -22,3 +22,4 @@ jobs:
 
       - name: Job conclusion check
         run: echo "AKSH_ORACLE: job-conclusion=success"
+
