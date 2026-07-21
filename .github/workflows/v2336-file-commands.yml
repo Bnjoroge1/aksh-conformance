@@ -1,5 +1,6 @@
 name: v2336 file commands
 on: workflow_dispatch
+# trigger-rescan: 1784645538
 
 # Comprehensive file command regression test.
 # Tests all five standard file commands plus the new v2.336.0

@@ -1,5 +1,6 @@
 name: v2336 combined
 on: workflow_dispatch
+# trigger-rescan: 1784645538
 
 # Tests v2.336.0 features exercisable on self-hosted runner:
 # - GITHUB_ARTIFACTS / GITHUB_ARTIFACTS_LIST file commands

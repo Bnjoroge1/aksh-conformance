@@ -1,5 +1,6 @@
 name: v2336 background cancel
 on: workflow_dispatch
+# trigger-rescan: 1784645538
 
 # Tests that continue-on-error steps (analog for canceled background steps)
 # do not affect job conclusion. Verifies #4482 behavior.
